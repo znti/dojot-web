@@ -1,4 +1,3 @@
-let Test = require('./Test');
 let Templates = require('./helpers/Templates');
 let Devices = require('./helpers/Devices');
 

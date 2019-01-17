@@ -1,7 +1,8 @@
-export default class Test {
-	ping() {
-		console.log('pong');
-	}
-}
+let Test = require('./Test');
+let Templates = require('./helpers/Templates');
+let Devices = require('./helpers/Devices');
 
-new Test().ping();
+console.log(Templates)
+Templates.ping();
+Devices.ping();
+Templates.ping();

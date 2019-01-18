@@ -1,15 +1,12 @@
-let stats = require('../utils/Stats');
 let http = require('../utils/Http');
 let configs = require('../config.js');
+let endpoint = configs.dojot.resources.devices
 
 module.exports = {
 	get() {
-		let {dojot} = configs;
-		let endpoint = `${dojot.host}/${dojot.resources.devices}`;
-		return new http().get(endpoint).then(response => {
+		return http.get(endpoint).then(response => {
 			let devices = response.data.devices || [];
 			return devices;
 		});
 	}
-
 }

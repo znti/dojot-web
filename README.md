@@ -1,16 +1,27 @@
-# dojot-web
-Library containing helpers to integrate with [dojot](http://www.dojot.com.br/)'s services.
+# dojot-web library
+Helpers classes to integrate with [dojot](http://www.dojot.com.br/)'s services.
 
-This document describes its supported features, along with a basic documentation for each of those.
+This document describes its supported features, along with a basic usage example for each of those.
 
-A basic usage example can be found on the [usageSample.js file](https://github.com/znti/dojot-web/blob/master/usageSample.js) and can be run with a simple `node usageSample.js` command once you've cloned the repository and installed its dependencies with `npm install`.
+A sample can be found on the [usageSample.js file](https://github.com/znti/dojot-web/blob/master/usageSample.js) and requires you to clone the repository before executing.
 
-# Initializing the library
+## Installing
+First of all, make sure to install the project package through npm.
+
+`npm install --save @znti/dojot-web`
+
+Once installed, simply import it as any other module; 
+
+`let dojot = require('@znti/dojot-web');`
+
+Now all that is left to do is to initialize it with a valid dojot host address.
+
+## Initializing
 
 ### init(dojotHost, credentials)
 Initializes the client and setups a connection with the dojot server located on `dojotHost`.
 
-Be sure to change your `dojotHost` location, in case its not on `localhost:8000`
+Make sure to change your `dojotHost` location, in case yours is not on `localhost:8000`
 
 `credentials` can be passed in case a custom username/password setup must be used. If left empty, the library assumes the default admin/admin setup and tries to authenticate with it.
 

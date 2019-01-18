@@ -1,7 +1,6 @@
 let dojot = require('./src/index');
 
 // Sets the base point for dojot.
-//let dojotHost = 'http://www.mocky.io';
 let dojotHost = 'http://localhost:8000';
 
 // This parameter on init() is actually optional. 

@@ -1,5 +1,5 @@
 {
-  "name": "dojot-web",
+  "name": "@znti/dojot-web",
   "version": "0.1.0",
   "description": "",
   "main": "src/index.js",

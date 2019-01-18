@@ -11,7 +11,7 @@ module.exports = {
 	},
 
 	set(templateData) {
-		let endpoint = configs.dojot.resources.templateCreation;
+//		let endpoint = configs.dojot.resources.templateCreation;
 		return http.post(endpoint, templateData).then(response => {
 			let createdTemplate = response.data.template;
 			return createdTemplate;

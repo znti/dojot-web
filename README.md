@@ -8,9 +8,10 @@ A basic usage example can be found on the [usageSample.js file](https://github.c
 # Initializing the library
 
 ### init(dojotHost, credentials)
-Initializes the client and setups a connection with the dojot server located on {dojotHost}.
+Initializes the client and setups a connection with the dojot server located on `dojotHost`.
+Be sure to change your `dojotHost` location, in case its not on `localhost:8000`
 
-{credentials} can be passed in case a custom username/password setup must be used. If left empty, the library assumes the default admin/admin setup and tries to authenticate with it.
+`credentials` can be passed in case a custom username/password setup must be used. If left empty, the library assumes the default admin/admin setup and tries to authenticate with it.
 
 ```js
 dojot.init(dojotHost, credentials).then(dojotClient => {
@@ -35,7 +36,7 @@ Templates.get().then(templates => {
 ```
 
 ### set(templateData)
-Creates a new template based on data sent on {templateData}
+Creates a new template based on data sent on `templateData`.
 
 ```js
 Templates.set({
@@ -68,7 +69,7 @@ Devices.get().then(devices => {
 ```
 
 ### set(deviceData)
-Creates a new device based on data sent on {deviceData}
+Creates a new device based on data sent on `deviceData`
 
 ```js
 Devices.set({

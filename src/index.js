@@ -1,7 +1,5 @@
 let Templates = require('./helpers/Templates');
 let Devices = require('./helpers/Devices');
 
-console.log(Templates)
-Templates.ping();
-Devices.ping();
-Templates.ping();
+Templates.ping().then(console.log);
+Devices.ping().then(console.log);

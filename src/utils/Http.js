@@ -40,12 +40,17 @@ module.exports = {
 	},
 
 	get(endpoint) {
-		console.log('Requesting GET', endpoint);
+		console.log('Requesting GET on', endpoint);
 		return this.http.get(endpoint);
 	},
 
 	post(endpoint, data) {
-		console.log('Requesting POST', endpoint, 'with data', data);
+		console.log('Requesting POST on', endpoint, 'with data', data);
 		return this.http.post(endpoint, data);
 	},
+
+	delete(endpoint) {
+		console.log('Requesting DELETE on', endpoint);
+		return this.http.delete(endpoint);
+	}
 }

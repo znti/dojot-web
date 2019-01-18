@@ -3,7 +3,7 @@ Helper classes to integrate with [dojot](http://www.dojot.com.br/)'s services.
 
 This document describes its supported features, along with a basic usage example for each of those.
 
-A sample can be found on the [usageSample.js file](https://github.com/znti/dojot-web/blob/master/usageSample.js) and requires you to either clone this entire repository before executing or changing the module location from `./src/index` to `@znti/dojot-web` and then installing it.
+A sample can be found on the [usageSample.js file](https://github.com/znti/dojot-web/blob/master/usageSample.js) and requires you to either clone this entire repository before executing or to change the module location from `./src/index` to `@znti/dojot-web` and then install it.
 
 ## Installing
 First of all, make sure to install the project package through npm.
@@ -69,6 +69,24 @@ Templates.get().then(templates => {
 }).catch(console.error);
 ```
 
+### delete(templateData)
+Deletes the template identified on `templateData`.
+
+```js
+Templates.delete({
+        "label": "EquipmentName",
+        "attrs": [
+                {
+                        "label": "serialCode",
+                        "type": "dynamic",
+                        "value_type": "string"
+                }
+        ]
+}).then(template => {
+        console.log('Removed template', template);
+}).catch(console.error);
+```
+
 ## Devices
 
 ### get()
@@ -101,6 +119,30 @@ Devices.set({
 	]
 }).then(device => {
 	console.log('Created a new device');
+}).catch(console.error);
+```
+
+### delete(deviceData)
+Deletes the device identified on `deviceData`.
+
+```js
+Devices.delete({
+	"label": "equipamentoDoJoao",
+	"templates": [
+		"12"
+	],
+	"attrs": [
+		{
+			"id": 76,
+			"label": "serialCode",
+			"static_value": "SC01",
+			"template_id": "12",
+			"type": "dynamic",
+			"value_type": "string"
+		}
+	]
+}).then(device => {
+        console.log('Removed device', device);
 }).catch(console.error);
 ```
 

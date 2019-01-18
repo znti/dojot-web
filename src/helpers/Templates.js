@@ -17,4 +17,13 @@ module.exports = {
 			return createdTemplate;
 		});
 	},
+
+	delete(templateData) {
+		let templateId = templateData.id;
+		let deleteEndpoint = `${endpoint}/${templateId}`;
+		return http.delete(deleteEndpoint).then(response => {
+			let removedTemplate = response.data.removed;
+			return removedTemplate;
+		});
+	}
 }

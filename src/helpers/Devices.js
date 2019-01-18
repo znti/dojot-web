@@ -11,10 +11,18 @@ module.exports = {
 	},
 
 	set(deviceData) {
-//		let endpoint = configs.dojot.resources.deviceCreation;
 		return http.post(endpoint, deviceData).then(response => {
 			let createdDevice = response.data.devices[0];
 			return createdDevice;
 		});
 	},
+
+	delete(deviceData) {
+		let deviceId = deviceData.id;
+		let deleteEndpoint = `${endpoint}/${deviceId}`;
+		return http.delete(deleteEndpoint).then(response => {
+			let removedDevice = response.data.removed_device;
+			return removedDevice;
+		});
+	}
 }

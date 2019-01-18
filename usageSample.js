@@ -55,7 +55,35 @@ dojot.init(dojotHost, credentials).then(dojotClient => {
 	}).then(device => {
 		console.log('Created a new device');
 		printDevice(device);
+
 	}).catch(console.error);
+
+	// Powerwash
+	let promises = [];
+	Devices.get().then(devices => {
+		devices.map(device => {
+			promises.push(
+				Devices.delete(device).then(d => console.log('Deleted device', d))
+			);
+		});
+
+		console.log('Waiting for device deletion..');
+		return Promise.all(promises);
+	}).then(() => {
+		console.log('Now we can delete the templates..');
+		promises = [];
+		Templates.get().then(templates => {
+			templates.map(template => {
+				promises.push(
+					Templates.delete(template).then(t => console.log('Deleted template', t))
+				);
+			});
+		});
+		return Promise.all(promises);
+	}).then(() => {
+		console.log('All done');
+	}).catch(console.error);
+
 
 }).catch(console.error);
 

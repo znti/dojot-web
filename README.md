@@ -92,5 +92,7 @@ Devices.set({
 ```
 
 ## Resources
+
 [dojot's official documentation](https://dojotdocs.readthedocs.io/en/stable/index.html)
+
 [Introduction to dojot platform (in PT-BR) serie](https://www.embarcados.com.br/serie/plataforma-dojot/)

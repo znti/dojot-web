@@ -9,9 +9,9 @@ module.exports = {
 			tenants: 'auth/user',
 			users: 'auth/user',
 			//templates: 'template',
-			templates: 'v2/5c41a1300f00004b3fe7b8eb',
+			templates: 'v2/5c40ae330f0000ca26e7b605',
 			//devices: 'device',
-			devices: 'v2/5c40d0180f00002a24e7b67c',
+			devices: 'v2/5c40b7250f0000b927e7b62b',
 		}
 	}
 

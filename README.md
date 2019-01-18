@@ -9,6 +9,7 @@ A basic usage example can be found on the [usageSample.js file](https://github.c
 
 ### init(dojotHost, credentials)
 Initializes the client and setups a connection with the dojot server located on `dojotHost`.
+
 Be sure to change your `dojotHost` location, in case its not on `localhost:8000`
 
 `credentials` can be passed in case a custom username/password setup must be used. If left empty, the library assumes the default admin/admin setup and tries to authenticate with it.
@@ -17,7 +18,7 @@ Be sure to change your `dojotHost` location, in case its not on `localhost:8000`
 dojot.init(dojotHost, credentials).then(dojotClient => {
 	// From here on, you can use the helpers this library has
 	let {Templates, Devices} = dojotClient;
-});
+}).catch(console.error);
 ```
 
 # Using the library
@@ -32,7 +33,7 @@ Lists all templates available at dojot.
 ```js
 Templates.get().then(templates => {
 	console.log(`Retrieved ${templates.length} templates`);
-});
+}).catch(console.error);
 ```
 
 ### set(templateData)
@@ -50,11 +51,11 @@ Templates.set({
 	]
 }).then(template => {
 	console.log('Created a new template');
-});
+}).catch(console.error);
 
 Templates.get().then(templates => {
 	console.log(`Retrieved ${templates.length} templates`);
-});
+}).catch(console.error);
 ```
 
 ## Devices
@@ -65,7 +66,7 @@ Lists all devices available at dojot.
 ```js
 Devices.get().then(devices => {
 	console.log(`Retrieved ${devices.length} devices`);
-});
+}).catch(console.error);
 ```
 
 ### set(deviceData)
@@ -89,7 +90,7 @@ Devices.set({
 	]
 }).then(device => {
 	console.log('Created a new device');
-});
+}).catch(console.error);
 ```
 
 ## Resources

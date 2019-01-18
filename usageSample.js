@@ -16,12 +16,12 @@ dojot.init(dojotHost, credentials).then(dojotClient => {
 	Templates.get().then(templates => {
 		console.log(`Retrieved ${templates.length} templates`);
 		templates.map(printTemplate);
-	});
+	}).catch(console.error);
 	
 	Devices.get().then(devices => {
 		console.log(`Retrieved ${devices.length} devices`);
 		devices.map(printDevice);
-	});
+	}).catch(console.error);
 
 	Templates.set({
 		"label": "EquipmentName",
@@ -35,7 +35,7 @@ dojot.init(dojotHost, credentials).then(dojotClient => {
 	}).then(template => {
 		console.log('Created a new template');
 		printTemplate(template);
-	});
+	}).catch(console.error);
 
 
 	Devices.set({
@@ -56,9 +56,9 @@ dojot.init(dojotHost, credentials).then(dojotClient => {
 	}).then(device => {
 		console.log('Created a new device');
 		printDevice(device);
-	});
+	}).catch(console.error);
 
-});
+}).catch(console.error);
 
 let printTemplate = (template) => {
 	let {label, id, attrs} = template;

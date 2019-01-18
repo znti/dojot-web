@@ -1,9 +1,9 @@
 # dojot-web library
-Helpers classes to integrate with [dojot](http://www.dojot.com.br/)'s services.
+Helper classes to integrate with [dojot](http://www.dojot.com.br/)'s services.
 
 This document describes its supported features, along with a basic usage example for each of those.
 
-A sample can be found on the [usageSample.js file](https://github.com/znti/dojot-web/blob/master/usageSample.js) and requires you to clone the repository before executing.
+A sample can be found on the [usageSample.js file](https://github.com/znti/dojot-web/blob/master/usageSample.js) and requires you to either clone this entire repository before executing or changing the module location from `./src/index` to `@znti/dojot-web` and then installing it.
 
 ## Installing
 First of all, make sure to install the project package through npm.

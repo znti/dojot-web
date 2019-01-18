@@ -1,4 +1,5 @@
 const axios = require('axios');
+const config = require('../config');
 
 //module.exports = class Http {
 module.exports = {
@@ -7,35 +8,34 @@ module.exports = {
 		console.log('Ping from HttpHelper');
 	},
 
-	init(endpointUri) {
+	init(endpointUri, networkTimeout) {
+		this.timeout = networkTimeout || 5000;
 		return new Promise((resolve, reject) => {
 			//Mocks some initialization latency
 			setTimeout(() => {
-				
 				this.endpoint = endpointUri;
-				console.log('Initializing http helper pointing to', this.endpoint);
 				this.http = axios.create({
 					baseURL: this.endpoint,
+					timeout: this.timeout,
 				});
 				resolve(this)
 			}, 2000);
 		});
 	},
 
-	setAuthToken(jwt, defaultTimeout) {
-		let timeout = defaultTimeout || 5000;
+	setAuthToken(jwt) {
 		return new Promise((resolve, reject) => {
-		console.log('Setting auth token as', jwt);
+			console.log('Setting auth token as', jwt);
+			this.jwt = jwt;
 			this.http = axios.create({
 				baseURL: this.endpoint,
-				timeout: timeout,
+				timeout: this.timeout,
 				headers: {
-					'Authorization': `Bearer ${jwt}`,
+					'Authorization': `Bearer ${this.jwt}`,
 					'Content-Type': 'application/json',
 				}
 			});
-
-			resolve();
+			resolve(this);
 		});
 	},
 

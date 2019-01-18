@@ -4,7 +4,8 @@ module.exports = {
 		//host: 'http://localhost:8000',
 		host: 'http://www.mocky.io',
 		resources: {
-			auth: 'auth',
+			//auth: 'auth',
+			auth: 'v2/5c41eaf93200005200732681',
 			tenants: 'auth/user',
 			users: 'auth/user',
 			//templates: 'template',

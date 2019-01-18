@@ -1,6 +1,11 @@
 let dojot = require('./src/index');
 
-dojot.init().then(dojotClient => {
+// This parameter on init() is actually optional. 
+// If nothing is passed, admin/admin is assumed
+// The only reason its here is to guide users in need of using custom credentials
+let credentials = {username: 'admin', passwd: 'admin'}
+
+dojot.init(credentials).then(dojotClient => {
 
 	let {Templates, Devices} = dojotClient;
 

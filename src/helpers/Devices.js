@@ -8,5 +8,13 @@ module.exports = {
 			let devices = response.data.devices || [];
 			return devices;
 		});
-	}
+	},
+
+	set(deviceData) {
+		let endpoint = configs.dojot.resources.deviceCreation;
+		return http.post(endpoint, deviceData).then(response => {
+			let createdDevice = response.data.devices[0];
+			return createdDevice;
+		});
+	},
 }

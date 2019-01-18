@@ -18,7 +18,6 @@ let init = (dojotHost, credentials) => {
 		});
 	}).then(dojotClient => {
 		console.log('Dojot client is ready!');
-		console.log(dojotClient.jwt);
 		return {Templates, Devices};
 	}).catch(e => console.error(e))
 }

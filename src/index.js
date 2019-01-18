@@ -2,12 +2,11 @@ let Templates = require('./helpers/Templates');
 let Devices = require('./helpers/Devices');
 
 let config = require('./config');
-let dojotHost = config.dojot.host;
 
 let http = require('./utils/Http');
 
-let init = (credentials) => {
-	credentials = credentials || {username:'admin', passwd:'admin'};
+let init = (dojotHost, credentials) => {
+	credentials = credentials || config.dojot.credentials;
 	console.log('Initializing dojot client..');
 
 	return http.init(dojotHost).then((dojotClient) => {

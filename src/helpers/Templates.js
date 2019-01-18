@@ -8,5 +8,13 @@ module.exports = {
 			let templates = response.data.templates || [];
 			return templates;
 		});
-	}
+	},
+
+	set(templateData) {
+		let endpoint = configs.dojot.resources.templateCreation;
+		return http.post(endpoint, templateData).then(response => {
+			let createdTemplate = response.data.template;
+			return createdTemplate;
+		});
+	},
 }

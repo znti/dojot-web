@@ -8,36 +8,52 @@ let dojotHost = 'http://www.mocky.io';
 // The only reason its here is to guide users in need of using custom credentials
 let credentials = {username: 'admin', passwd: 'admin'}
 
+
+let printTemplate = (template) => {
+	let {label, id, attrs} = template;
+	console.log(`Template ${label} (id ${id}) - ${attrs.length} attributes`);
+	attrs.map(a => console.log('\t' + a.label));
+}
+
+let printDevice = (device) => {
+	let {label, id, attrs} = device;
+
+	//Attrs are mapped as templateId:templateAttrs for each template
+	//Here we map them into a flat structure
+	let acc = []
+	Object.keys(attrs).forEach(k => attrs[k].forEach(v => acc.push(v)))
+	attrs = acc;
+
+	console.log(`Device ${label} (id ${id}) - ${attrs.length} attributes`);
+	attrs.map(attr => console.log(`\t ${attr.label} ${attr.static_value || ''}`) );
+}
+
 dojot.init(dojotHost, credentials).then(dojotClient => {
 
 	let {Templates, Devices} = dojotClient;
 
 	Templates.get().then(templates => {
 		console.log(`Retrieved ${templates.length} templates`);
-		templates.map(template => {
-			let {label, id, attrs} = template;
-			console.log(`Device ${label} (id ${id}) - ${attrs.length} attributes`);
-			attrs.map(a => console.log('\t' + a.label));
-		});
+		templates.map(printTemplate);
 	});
 	
 	Devices.get().then(devices => {
 		console.log(`Retrieved ${devices.length} devices`);
-	
-		devices.map(device => {
-			let {label, id, attrs} = device;
-	
-			//Attrs are mapped as templateId:templateAttrs for each template
-			//Here we map them into a flat structure
-			let acc = []
-			Object.keys(attrs).forEach(k => attrs[k].forEach(v => acc.push(v)))
-			attrs = acc;
-	
-			console.log(`Device ${label} (id ${id}) - ${attrs.length} attributes`);
-			attrs.map(attr => {
-				let attrVal = attr.static_value
-				console.log(`\t ${attr.label} ${attr.static_value || ''}`)
-			});
-		});
+		devices.map(printDevice);
+	});
+
+	Templates.set({
+		"label": "EquipmentName",
+		"attrs": [
+		  {
+		    "label": "modelCode",
+		    "type": "static",
+		    "static_value": "SFM2000",
+		    "value_type": "string"
+		  }
+		]
+	}).then(template => {
+		console.log('Created a new template');
+		printTemplate(template);
 	});
 });

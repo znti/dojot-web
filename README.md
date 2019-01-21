@@ -3,7 +3,7 @@ Helper classes to integrate with [dojot](http://www.dojot.com.br/)'s services.
 
 This document describes its supported features, along with a basic usage example for each of those.
 
-A sample can be found on the [usageSample.js file](https://github.com/znti/dojot-web/blob/master/usageSample.js) and requires you to either clone this entire repository before executing or to change the module location from `./src/index` to `@znti/dojot-web` and then install it.
+A sample of its usage can be found on the [CLI tool](https://github.com/znti/dojot-cli ) - which uses this module underneath.
 
 ## Installing
 First of all, make sure to install the project package through npm.
@@ -34,7 +34,7 @@ dojot.init(dojotHost, credentials).then(dojotClient => {
 
 # Using the library
 
-This section describes the helpers available and gives and overview of each supported feature they have.
+This section describes the helpers available and gives an overview of each supported feature they have.
 
 ## Templates
 

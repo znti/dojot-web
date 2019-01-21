@@ -5,7 +5,7 @@ let endpoint = configs.dojot.resources.templates
 module.exports = {
 	get() {
 		return http.get(endpoint).then(response => {
-			let templates = response.data.templates || [];
+			let templates = response.templates || [];
 			return templates;
 		});
 	},
@@ -13,7 +13,7 @@ module.exports = {
 	set(templateData) {
 //		let endpoint = configs.dojot.resources.templateCreation;
 		return http.post(endpoint, templateData).then(response => {
-			let createdTemplate = response.data.template;
+			let createdTemplate = response.template;
 			return createdTemplate;
 		});
 	},
@@ -22,7 +22,7 @@ module.exports = {
 		let templateId = templateData.id;
 		let deleteEndpoint = `${endpoint}/${templateId}`;
 		return http.delete(deleteEndpoint).then(response => {
-			let removedTemplate = response.data.removed;
+			let removedTemplate = response.removed;
 			return removedTemplate;
 		});
 	}

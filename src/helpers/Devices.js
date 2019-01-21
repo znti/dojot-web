@@ -5,14 +5,14 @@ let endpoint = configs.dojot.resources.devices
 module.exports = {
 	get() {
 		return http.get(endpoint).then(response => {
-			let devices = response.data.devices || [];
+			let devices = response.devices || [];
 			return devices;
 		});
 	},
 
 	set(deviceData) {
 		return http.post(endpoint, deviceData).then(response => {
-			let createdDevice = response.data.devices[0];
+			let createdDevice = response.devices[0];
 			return createdDevice;
 		});
 	},
@@ -21,7 +21,7 @@ module.exports = {
 		let deviceId = deviceData.id;
 		let deleteEndpoint = `${endpoint}/${deviceId}`;
 		return http.delete(deleteEndpoint).then(response => {
-			let removedDevice = response.data.removed_device;
+			let removedDevice = response.removed_device;
 			return removedDevice;
 		});
 	}

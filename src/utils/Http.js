@@ -41,16 +41,41 @@ module.exports = {
 
 	get(endpoint) {
 		console.log('Requesting GET on', endpoint);
-		return this.http.get(endpoint);
+		return this.http.get(endpoint)
+			.then(response => {
+				let {data} = response;
+				return Promise.resolve(data);
+			})
+			.catch(error => {
+				let {data} = error.response;
+				return Promise.reject(data);
+			});
 	},
 
 	post(endpoint, data) {
 		console.log('Requesting POST on', endpoint, 'with data', data);
-		return this.http.post(endpoint, data);
+		return this.http.post(endpoint, data)
+			.then(response => {
+				let {data} = response;
+				console.log('Got data', data);
+				return Promise.resolve(data);
+			})
+			.catch(error => {
+				let {data} = error.response;
+				return Promise.reject(data);
+			});
 	},
 
 	delete(endpoint) {
 		console.log('Requesting DELETE on', endpoint);
-		return this.http.delete(endpoint);
+		return this.http.delete(endpoint)
+			.then(response => {
+				let {data} = response;
+				return Promise.resolve(data);
+			})
+			.catch(error => {
+				let {data} = error.response;
+				return Promise.reject(data);
+			});
 	}
 }

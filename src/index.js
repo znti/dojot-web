@@ -13,7 +13,8 @@ let init = (dojotHost, credentials) => {
 		console.log('Got dojot\'s HTTP client. Setting auth token..');
 		let authEndpoint = config.dojot.resources.auth;
 		return dojotClient.post(authEndpoint, credentials).then(response => {
-			let jwt = response.data.jwt;
+			console.log('new response', response);
+			let jwt = response.jwt;
 			return dojotClient.setAuthToken(jwt);
 		});
 	}).then(dojotClient => {

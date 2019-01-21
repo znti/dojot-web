@@ -20,12 +20,11 @@ module.exports = {
 	setAuthToken(jwt) {
 		return new Promise((resolve, reject) => {
 			console.log('Setting auth token as', jwt);
-			this.jwt = jwt;
 			this.http = axios.create({
 				baseURL: this.endpoint,
 				timeout: this.timeout,
 				headers: {
-					'Authorization': `Bearer ${this.jwt}`,
+					'Authorization': `Bearer ${jwt}`,
 					'Content-Type': 'application/json',
 				}
 			});

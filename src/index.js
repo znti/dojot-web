@@ -31,7 +31,6 @@ module.exports = class Dojot {
 		console.log('Initializing dojot client with credentials', credentials, '..');
 		let authEndpoint = configs.dojot.resources.auth;
 		return this.httpClient.post(authEndpoint, credentials).then(response => {
-			console.log('new response', response);
 			let authToken = response.jwt;
 			return this.initializeWithAuthToken(authToken);
 		}).catch(e => console.error(e))

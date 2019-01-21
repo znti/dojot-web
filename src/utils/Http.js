@@ -1,12 +1,6 @@
 const axios = require('axios');
-const config = require('../config');
 
-//module.exports = class Http {
 module.exports = {
-
-	ping() {
-		console.log('Ping from HttpHelper');
-	},
 
 	init(endpointUri, networkTimeout) {
 		this.timeout = networkTimeout || 5000;
@@ -19,7 +13,7 @@ module.exports = {
 					timeout: this.timeout,
 				});
 				resolve(this)
-			}, 2000);
+			}, 1000);
 		});
 	},
 

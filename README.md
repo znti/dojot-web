@@ -12,23 +12,40 @@ First of all, make sure to install the project package through npm.
 
 Once installed, simply import it as any other module; 
 
-`let dojot = require('@znti/dojot-web');`
+`const dojotLibrary = require('@znti/dojot-web');`
 
 Now all that is left to do is to initialize it with a valid dojot host address.
 
 ## Initializing
 
-### init(dojotHost, credentials)
+This module is exported as a class. To use it, instantiate it from the required object.
+
+```js
+const dojot = new dojotLibrary();
+```
+
+### configure(dojotHost)
 Initializes the client and setups a connection with the dojot server located on `dojotHost`.
+
+```js
+let dojotHost = 'http://localhost:8000';
+dojot.configure(dojotHost).then(configuredClient => {
+	// The client is now pointing to the specified dojot host.
+	// All thats left is to provide some credentials.
+}).catch(console.error);
+```
 
 Make sure to change your `dojotHost` location, in case yours is not on `localhost:8000`
 
-`credentials` can be passed in case a custom username/password setup must be used. If left empty, the library assumes the default admin/admin setup and tries to authenticate with it.
+### initializeWithCredentials(credentials)
+
+`credentials` is an object formatted as `{username: <user>, passwd: <pwd>}`. It can be passed if custom username/password setup must be used. If left empty, the library assumes the default credentials located at [configs.js](https://github.com/znti/dojot-web/blob/master/src/configs.js) and tries to authenticate with it.
 
 ```js
-dojot.init(dojotHost, credentials).then(dojotClient => {
+let credentials = {username:'admin', passwd:'admin'};
+configuredClient.initializeWithCredentials(credentials).then(initializedClient => {
 	// From here on, you can use the helpers this library has
-	let {Templates, Devices} = dojotClient;
+	let {Templates, Devices} = initializedClient;
 }).catch(console.error);
 ```
 
@@ -36,7 +53,7 @@ dojot.init(dojotHost, credentials).then(dojotClient => {
 
 This section describes the helpers available and gives an overview of each supported feature they have.
 
-### getAuthToken
+### getAuthToken()
 Returns the curent jwt used for authentication.
 
 ## Templates

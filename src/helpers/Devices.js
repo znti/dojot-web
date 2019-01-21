@@ -1,5 +1,5 @@
 let http = require('../utils/Http');
-let configs = require('../config.js');
+let configs = require('../configs');
 let endpoint = configs.dojot.resources.devices
 
 module.exports = {

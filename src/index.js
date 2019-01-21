@@ -1,35 +1,48 @@
 let Templates = require('./helpers/Templates');
 let Devices = require('./helpers/Devices');
 
-let config = require('./config');
+let configs = require('./configs');
 
 let http = require('./utils/Http');
 
-let authToken;
+module.exports = class Dojot {
 
-let init = (dojotHost, credentials) => {
-	credentials = credentials || config.dojot.credentials;
-	console.log('Initializing dojot client..');
+	constructor() {
+		this.Templates = Templates;
+		this.Devices = Devices;
+	}
 
-	return http.init(dojotHost).then((dojotClient) => {
-		console.log('Got dojot\'s HTTP client. Requesting a new auth token..');
-		let authEndpoint = config.dojot.resources.auth;
-		return dojotClient.post(authEndpoint, credentials).then(response => {
+	getAuthToken() {
+		return this.authToken;
+	}
+	
+	configure(dojotHost) {
+		console.log('Initializing dojot client..');
+	
+		return http.init(dojotHost).then((dojotClient) => {
+			console.log('Configured! Now pointing to', dojotHost);
+			this.httpClient = dojotClient;
+			return Promise.resolve(this);
+		}).catch(e => console.error(e))
+	}
+	
+	initializeWithCredentials(credentials) {
+		credentials = credentials || configs.dojot.credentials;
+		console.log('Initializing dojot client with credentials', credentials, '..');
+		let authEndpoint = configs.dojot.resources.auth;
+		return this.httpClient.post(authEndpoint, credentials).then(response => {
 			console.log('new response', response);
-			authToken = response.jwt;
-			return dojotClient.setAuthToken(authToken);
-		});
-	}).then(dojotClient => {
-		console.log('Dojot client is ready!');
-		let dojotHelpers = {
-			Templates,
-			Devices,
-			getAuthToken: () => authToken,
-		};
-		return dojotHelpers;
-	}).catch(e => console.error(e))
-}
+			let authToken = response.jwt;
+			return this.initWithAuthToken(authToken);
+		}).catch(e => console.error(e))
+	}
+	
+	initializeWithAuthToken(authToken) {
+		console.log('Initializing dojot client with token', authToken);
+		this.authToken = authToken;
+		return this.httpClient.setAuthToken(authToken).then(() => {
+			return this;
+		}).catch(e => console.error(e))
+	}
 
-module.exports = {
-	init
 }

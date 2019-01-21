@@ -33,7 +33,7 @@ module.exports = class Dojot {
 		return this.httpClient.post(authEndpoint, credentials).then(response => {
 			console.log('new response', response);
 			let authToken = response.jwt;
-			return this.initWithAuthToken(authToken);
+			return this.initializeWithAuthToken(authToken);
 		}).catch(e => console.error(e))
 	}
 	

@@ -59,7 +59,7 @@ configuredClient.initializeWithAuthToken(authToken).then(initializedClient => {
 	// From here on, you can use the helpers this library has
 	let {Templates, Devices} = initializedClient;
 }).catch(console.error);
-``
+```
 
 # Using the library
 

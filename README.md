@@ -95,10 +95,6 @@ Templates.set({
 }).then(template => {
 	console.log('Created a new template');
 }).catch(console.error);
-
-Templates.get().then(templates => {
-	console.log(`Retrieved ${templates.length} templates`);
-}).catch(console.error);
 ```
 
 ### delete(templateData)

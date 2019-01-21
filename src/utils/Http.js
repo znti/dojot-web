@@ -41,8 +41,9 @@ module.exports = {
 				return Promise.resolve(data);
 			})
 			.catch(error => {
-				let {data} = error.response;
-				return Promise.reject(data);
+				let message = error.message;
+				console.error('Error:', message);
+				return Promise.reject(message);
 			});
 	},
 
@@ -55,8 +56,9 @@ module.exports = {
 				return Promise.resolve(data);
 			})
 			.catch(error => {
-				let {data} = error.response;
-				return Promise.reject(data);
+				let message = error.message;
+				console.error('Error:', message);
+				return Promise.reject(message);
 			});
 	},
 
@@ -68,8 +70,10 @@ module.exports = {
 				return Promise.resolve(data);
 			})
 			.catch(error => {
-				let {data} = error.response;
-				return Promise.reject(data);
+				let message = error.message;
+				console.error('Error:', message);
+				return Promise.reject(message);
 			});
 	}
+
 }

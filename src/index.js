@@ -23,7 +23,7 @@ module.exports = class Dojot {
 			console.log('Configured! Now pointing to', dojotHost);
 			this.httpClient = dojotClient;
 			return Promise.resolve(this);
-		}).catch(e => console.error(e))
+		});
 	}
 	
 	initializeWithCredentials(credentials) {
@@ -33,7 +33,7 @@ module.exports = class Dojot {
 		return this.httpClient.post(authEndpoint, credentials).then(response => {
 			let authToken = response.jwt;
 			return this.initializeWithAuthToken(authToken);
-		}).catch(e => console.error(e))
+		});
 	}
 	
 	initializeWithAuthToken(authToken) {
@@ -41,7 +41,7 @@ module.exports = class Dojot {
 		this.authToken = authToken;
 		return this.httpClient.setAuthToken(authToken).then(() => {
 			return this;
-		}).catch(e => console.error(e))
+		});
 	}
 
 }

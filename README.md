@@ -36,6 +36,9 @@ dojot.init(dojotHost, credentials).then(dojotClient => {
 
 This section describes the helpers available and gives an overview of each supported feature they have.
 
+### getAuthToken
+Returns the curent jwt used for authentication.
+
 ## Templates
 
 ### get()
@@ -148,5 +151,5 @@ Devices.delete({
 
 ## Resources
 
+* [dojot website](http://dojot.com.br/)
 * [dojot's official documentation](https://dojotdocs.readthedocs.io/en/stable/index.html)
-* [Introduction to dojot platform (in PT-BR) series](https://www.embarcados.com.br/serie/plataforma-dojot/)

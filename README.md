@@ -170,9 +170,36 @@ Devices.delete({
 		}
 	]
 }).then(device => {
-        console.log('Removed device', device);
+	console.log('Removed device', device);
 }).catch(console.error);
 ```
+
+## Users
+
+### get()
+Lists existing users
+
+```js
+Users.get().then(users => {
+	console.log(`Retrieved ${users.length} users`);
+}).catch(console.error);
+```
+
+### set(userData)
+Created an user based on `userData`
+
+```js
+Users.set({
+	"username": "user01",
+	"service": "admin",
+	"email": "user01@noemail.com",
+	"name": "user01",
+	"profile": "admin"
+}).then(user => {
+	console.log('Created user', user);
+}).catch(console.error);
+```
+
 
 ## Resources
 

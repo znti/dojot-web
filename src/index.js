@@ -1,5 +1,6 @@
 let Templates = require('./helpers/Templates');
 let Devices = require('./helpers/Devices');
+let Users = require('./helpers/Users');
 
 let configs = require('./configs');
 
@@ -10,6 +11,7 @@ module.exports = class Dojot {
 	constructor() {
 		this.Templates = Templates;
 		this.Devices = Devices;
+		this.Users = Users;
 	}
 
 	getAuthToken() {

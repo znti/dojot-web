@@ -15,15 +15,26 @@ module.exports = {
 		});
 	},
 
-	registerToEvent(eventType) {
-		
+	_registerToEvent(eventType) {
+		console.log('Registering to server events of type:', eventType);
 	}
 
-	// { eventType: { callbacks: [] } }
+	// { eventType: [callback1, callback2..] }
 	eventCallbacks: {},
 
 	addEventListener(eventType, eventCallback) {
 		console.log('Adding a new callback for event', eventType);
+		let registeredCallbacks = eventCallbacks[eventType];
+		if(! registered) {
+			registeredCallbacks = [];
+			_registerToEvent(eventType);
+		}
+
+		registeredCallbacks.push(eventCallback);
+		eventCallbacks[eventType] = registeredCallbacks;
+		
+		console.log('Event', eventType, 'now has', registeredCallbacks.length, 'callbacks registered');
+
 	},
 
 	removeEventListener(listenerId) {

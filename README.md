@@ -174,6 +174,24 @@ Devices.delete({
 }).catch(console.error);
 ```
 
+### onDeviceData(function callback(deviceData))
+Defines a handler for data sent to devices.
+
+```js
+Devices.onDeviceData((data) => {
+	console.log('Got device message data:', data);
+});
+```
+
+### onDeviceChange(function callback(changeData))
+Defines a handler for device changes.
+
+```js
+Devices.onDeviceChange((data) => {
+	console.log('Got device change data:', data);
+});
+```
+
 ## Users
 
 ### get()

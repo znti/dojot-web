@@ -31,8 +31,11 @@ module.exports = class Dojot {
 		});
 	}
 	
-	initializeWithCredentials(credentials) {
-		credentials = credentials || configs.dojot.credentials;
+	initializeWithCredentials(user, password) {
+		let credentials = configs.dojot.credentials;
+		if(user && password) {
+			credentials = {username: user, passwd: password};
+		}
 		console.log('Initializing dojot client with credentials', credentials, '..');
 		let authEndpoint = configs.dojot.resources.auth;
 		return this.httpClient.post(authEndpoint, credentials).then(response => {

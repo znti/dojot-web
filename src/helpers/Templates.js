@@ -2,13 +2,13 @@ let http = require('../utils/Http');
 let configs = require('../configs');
 let endpoint = configs.dojot.resources.templates
 
-module.exports = {
+module.exports = class Templates {
 	get() {
 		return http.get(endpoint).then(response => {
 			let templates = response.templates || [];
 			return templates;
 		});
-	},
+	}
 
 	set(templateData) {
 //		let endpoint = configs.dojot.resources.templateCreation;
@@ -16,7 +16,7 @@ module.exports = {
 			let createdTemplate = response.template;
 			return createdTemplate;
 		});
-	},
+	}
 
 	delete(templateData) {
 		let templateId = templateData.id;

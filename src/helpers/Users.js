@@ -2,20 +2,20 @@ let http = require('../utils/Http');
 let configs = require('../configs');
 let endpoint = configs.dojot.resources.users
 
-module.exports = {
+module.exports = class Users {
 	get() {
 		return http.get(endpoint).then(response => {
 			let users = response.users || [];
 			return users;
 		});
-	},
+	}
 
 	set(userData) {
 		return http.post(endpoint, userData).then(response => {
 			let createdUser = response[0].user;
 			return createdUser;
 		});
-	},
+	}
 
 	delete(userData) {
 		let userId = userData.id;

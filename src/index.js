@@ -10,17 +10,9 @@ let Websocket = require('./utils/Websocket');
 
 module.exports = class Dojot {
 
-
 	go() {
 		this.configure('http://localhost:8000')
 			.then(d => d.initializeWithCredentials())
-			.then(d => d.initializeWebsocket());
-	}
-
-	constructor() {
-		this.Templates = Templates;
-		this.Devices = Devices;
-		this.Users = Users;
 	}
 
 	getAuthToken() {
@@ -45,15 +37,19 @@ module.exports = class Dojot {
 		let authEndpoint = configs.dojot.resources.auth;
 		return this.httpClient.post(authEndpoint, credentials).then(response => {
 			let authToken = response.jwt;
-			return this.initializeWithAuthToken(authToken);
+			return this.initializeWithToken(authToken);
 		});
 	}
 	
-	initializeWithAuthToken(authToken) {
+	initializeWithToken(authToken) {
 		console.log('Initializing dojot client with token', authToken);
 		this.authToken = authToken;
 		return this.httpClient.setAuthToken(authToken).then(() => {
-			return this;
+			this.initializeWebsocket().then(() => {
+				this.Templates = new Templates();
+				this.Devices = new Devices();
+				this.Users = new Users();
+			});
 		});
 	}
 
@@ -63,17 +59,9 @@ module.exports = class Dojot {
 			return;
 		}
 
-		let ws = new Websocket();
-
+		this.ws = new Websocket();
 		console.log('Initializing ws helper');
-
-		ws.init(this.dojotHost, `${this.dojotHost}/stream/socketio`).then(() => {
-			console.log('Got ws client:', ws);
-			this.Websocket = ws;
-			ws.addEventListener('all', (data) => {
-				console.log('OMGWTF', data);
-			});
-		});
+		return this.ws.init(this.dojotHost, `${this.dojotHost}/stream/socketio`)
 	}
 
 }

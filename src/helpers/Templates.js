@@ -3,6 +3,11 @@ let configs = require('../configs');
 let endpoint = configs.dojot.resources.templates
 
 module.exports = class Templates {
+
+	constructor(wsClient) {
+		this.ws = wsClient;
+	}
+
 	get() {
 		return http.get(endpoint).then(response => {
 			let templates = response.templates || [];

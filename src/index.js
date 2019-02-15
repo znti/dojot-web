@@ -45,10 +45,11 @@ module.exports = class Dojot {
 		console.log('Initializing dojot client with token', authToken);
 		this.authToken = authToken;
 		return this.httpClient.setAuthToken(authToken).then(() => {
-			this.initializeWebsocket().then(() => {
-				this.Templates = new Templates();
-				this.Devices = new Devices();
-				this.Users = new Users();
+			this.initializeWebsocket().then((wsClient) => {
+				console.log('Setting helpers');
+				this.Templates = new Templates(wsClient);
+				this.Devices = new Devices(wsClient);
+				this.Users = new Users(wsClient);
 			});
 		});
 	}

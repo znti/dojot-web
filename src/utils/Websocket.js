@@ -30,9 +30,9 @@ module.exports = class Websocket {
 	_registerToEvent(eventType) {
 		console.log('Registering to server events of type:', eventType);
 		this.socketHandler.on(eventType, (data) => {
-			console.log('Event', eventType, 'emmited data:', data);
+			console.debug('Event', eventType, 'emmited data:', data);
 			let callbacks = this.eventCallbacks[eventType];
-			console.log('Triggering', callbacks.length, 'listeners');
+			console.debug('Triggering', callbacks.length, 'listeners');
 			callbacks.map(cb => cb(data));
 		});
 	}

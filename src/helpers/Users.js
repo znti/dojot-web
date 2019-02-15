@@ -3,6 +3,11 @@ let configs = require('../configs');
 let endpoint = configs.dojot.resources.users
 
 module.exports = class Users {
+
+	constructor(wsClient) {
+		this.ws = wsClient;
+	}
+
 	get() {
 		return http.get(endpoint).then(response => {
 			let users = response.users || [];

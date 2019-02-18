@@ -15,7 +15,7 @@ module.exports = class Websocket {
 					console.log('Loaded WS token:', wsToken);
 					return wsToken;
 				}).then(token => {
-					console.log('Setting token');
+					console.log('Opening socket.io connection to', dojotHost);
 					this.socketHandler = openSocket(dojotHost, { query: `token=${token}`, transports: ['polling'] });
 
 					console.log('Socket.io handler initialized');	

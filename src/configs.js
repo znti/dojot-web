@@ -2,11 +2,12 @@ module.exports = {
 
 	dojot: {
 		resources: {
-			auth: 'auth',
-			tenants: 'auth/user',
-			users: 'auth/user',
-			templates: 'template',
-			devices: 'device',
+			auth: 'api/auth',
+			tenants: 'api/auth/user',
+			users: 'api/auth/user',
+			templates: 'api/template',
+			devices: 'api/device',
+			socketio: 'api/stream/socketio',
 		},
 		credentials: {
 			username: 'admin',

@@ -11,7 +11,7 @@ let Websocket = require('./utils/Websocket');
 module.exports = class Dojot {
 
 	go() {
-		this.configure('http://localhost:8000')
+		this.configure('http://localhost')
 			.then(d => d.initializeWithCredentials())
 	}
 
@@ -65,7 +65,7 @@ module.exports = class Dojot {
 
 		this.ws = new Websocket();
 		console.log('Initializing ws helper');
-		return this.ws.init(this.dojotHost, `${this.dojotHost}/stream/socketio`)
+		return this.ws.init(this.dojotHost, `${this.dojotHost}/${configs.dojot.resources.socketio}`)
 	}
 
 }

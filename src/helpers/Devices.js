@@ -32,67 +32,73 @@ module.exports = class Device {
 			}
 		}
 
-		let historySize = options && options.historySize;
  	
-		return new Promise((resolve, reject) => {
+		return new Promise(async (resolve, reject) => {
 
-		http.get(getEndpoint).then(response => {	
-			let data = deviceId ? [response] : response.devices || [];
+			let devices = await this._loadDevicesData(getEndpoint);
+			console.log('Loaded', devices.length, 'devices');
 
-			data.map(device => {
-				let { attrs } = device;
-				let acc = [];
-				if(attrs) {
-					Object.keys(attrs).forEach(k => attrs[k].forEach(v => acc.push(v)));
-				}
-				attrs = acc;
-				device.attrs = attrs;
-				return device;
-			});
 
+			let historySize = options && options.historySize;
 			if(historySize > 0) {
-				let promises = [];
-				let devices = []
+				console.log('Now loading historic data for each device that has dynamic attributes');
+				let ndevices = []
 
-				data.map(device => {
+				let promises = await devices.map(async device => {
 
 					let dynamicAttrs = device.attrs.filter(attr => attr.type === 'dynamic');
-					if(dynamicAttrs) {
-						let p = this.getDeviceHistory(device, historySize).then(attrsHistory => {
-							dynamicAttrs.map(attr => {
-								let { label } = attr;
-								console.log('Setting attr:', attr, 'history on', device);
-								attr.history = attrsHistory[label];
-							});
-							console.log('Adding device', device);
-							devices.push(device);
-						});
-					
-						promises.push(p);
-					} else {
+
+
+					if(!dynamicAttrs) {
 						console.log(`Skipping device ${device.label} (${device.id}) since it has no dynamic attrs`);
-						devices.push(device);
+						ndevices.push(device);
+						return;
+						return device;
 					}
+
+					let attrsHistory = await this._loadDeviceHistory(device, historySize);
+
+					
+					dynamicAttrs.map(attr => {
+						let { label } = attr;
+						attr.history = attrsHistory[label];
+					});
+					ndevices.push(device);
 				});
+				
+				console.log('Resolving with', devices);
 
-				console.log('P is:', promises);
-
-				console.log('Waiting...');
 				Promise.all(promises).then(() => {
-					console.log('Done!');
-					resolve(devices);
+					resolve(ndevices);
 				});
 
 			} else {
-				resolve(data);
+				resolve(devices);
 			}
 		});
 		
-		});
-
 	}
 
-	getDeviceHistory(device, historySize) {
+	_loadDevicesData(getEndpoint) {
+		return new Promise((resolve, reject) => {
+			http.get(getEndpoint).then(response => {	
+				let data = response.devices ? response.devices || [] : [response];
+				let devices = data.map(device => {
+					let { attrs } = device;
+					let acc = [];
+					if(attrs) {
+						Object.keys(attrs).forEach(k => attrs[k].forEach(v => acc.push(v)));
+					}
+					attrs = acc;
+					device.attrs = attrs;
+					return device;
+				});
+				resolve(devices);
+			});
+		});
+	}
+
+	_loadDeviceHistory(device, historySize) {
 		return new Promise((resolve, reject) => {
 
 			console.log(`Requesting history for device ${device.label} (${device.id})`);

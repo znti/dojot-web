@@ -20,17 +20,19 @@ module.exports = class Device {
 	}
 
 	get(options) {
+		console.log('Setting options', options);
 		let getEndpoint = endpoint;
 		let deviceId = options && options.deviceId;
-//		if(options) {
-//		let { deviceId } = options;
 		if(deviceId) {
 			getEndpoint = `${getEndpoint}/${deviceId}`;
+		} else {
+			let { pageSize, pageNumber } = options
+			if(pageSize && pageSize > 0 && pageNumber && pageNumber > 0) {
+				getEndpoint = `${getEndpoint}?page_num=${pageNumber}&page_size=${pageSize}`;
+			}
 		}
-//		}
 
-		return http.get(getEndpoint).then(response => {
-			
+		return http.get(getEndpoint).then(response => {	
 			let data = deviceId ? response : response.devices || [];
 			return data;
 		});

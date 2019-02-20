@@ -65,7 +65,7 @@ module.exports = class Dojot {
 
 		this.ws = new Websocket();
 		console.log('Initializing ws helper');
-		return this.ws.init(this.dojotHost, `${this.dojotHost}/${configs.dojot.resources.socketio}`)
+		return this.ws.init(this.dojotHost, `${this.dojotHost}/${configs.dojot.resources.socketioToken}`)
 	}
 
 }

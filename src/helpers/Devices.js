@@ -19,10 +19,20 @@ module.exports = class Device {
 		});
 	}
 
-	get() {
-		return http.get(endpoint).then(response => {
-			let devices = response.devices || [];
-			return devices;
+	get(options) {
+		let getEndpoint = endpoint;
+		let deviceId = options && options.deviceId;
+//		if(options) {
+//		let { deviceId } = options;
+		if(deviceId) {
+			getEndpoint = `${getEndpoint}/${deviceId}`;
+		}
+//		}
+
+		return http.get(getEndpoint).then(response => {
+			
+			let data = deviceId ? response : response.devices || [];
+			return data;
 		});
 	}
 

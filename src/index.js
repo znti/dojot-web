@@ -11,7 +11,7 @@ let Websocket = require('./utils/Websocket');
 module.exports = class Dojot {
 
 	go() {
-		this.configure('http://localhost')
+		this.configure('http://localhost:8000')
 			.then(d => d.initializeWithCredentials())
 	}
 

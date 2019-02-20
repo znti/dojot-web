@@ -32,9 +32,85 @@ module.exports = class Device {
 			}
 		}
 
-		return http.get(getEndpoint).then(response => {	
-			let data = deviceId ? response : response.devices || [];
-			return data;
+		let historySize = options && options.historySize;
+ 	
+		return new Promise((resolve, reject) => {
+
+		http.get(getEndpoint).then(response => {	
+			let data = deviceId ? [response] : response.devices || [];
+
+			data.map(device => {
+				let { attrs } = device;
+				let acc = [];
+				if(attrs) {
+					Object.keys(attrs).forEach(k => attrs[k].forEach(v => acc.push(v)));
+				}
+				attrs = acc;
+				device.attrs = attrs;
+				return device;
+			});
+
+			if(historySize > 0) {
+				let promises = [];
+				let devices = []
+
+				data.map(device => {
+
+					let dynamicAttrs = device.attrs.filter(attr => attr.type === 'dynamic');
+					if(dynamicAttrs) {
+						let p = this.getDeviceHistory(device, historySize).then(attrsHistory => {
+							dynamicAttrs.map(attr => {
+								let { label } = attr;
+								console.log('Setting attr:', attr, 'history on', device);
+								attr.history = attrsHistory[label];
+							});
+							console.log('Adding device', device);
+							devices.push(device);
+						});
+					
+						promises.push(p);
+					} else {
+						console.log(`Skipping device ${device.label} (${device.id}) since it has no dynamic attrs`);
+						devices.push(device);
+					}
+				});
+
+				console.log('P is:', promises);
+
+				console.log('Waiting...');
+				Promise.all(promises).then(() => {
+					console.log('Done!');
+					resolve(devices);
+				});
+
+			} else {
+				resolve(data);
+			}
+		});
+		
+		});
+
+	}
+
+	getDeviceHistory(device, historySize) {
+		return new Promise((resolve, reject) => {
+
+			console.log(`Requesting history for device ${device.label} (${device.id})`);
+			let historyEndpoint = `${configs.dojot.resources.history}/device/${device.id}/history`;
+			historyEndpoint = `${historyEndpoint}?lastN=${historySize}`;
+
+			http.get(historyEndpoint).then(attrsHistory => {
+				console.log('Returning history data:', attrsHistory);
+				resolve(attrsHistory);
+			}).catch(err => {
+				console.log(`Failed on device ${device.id}. Skipping for now.`);
+				let attrsHistory = {};
+				device.attrs.map(d => {
+					attrsHistory[d.label] = [];
+				});
+				console.log('Returning history data:', attrsHistory);
+				resolve(attrsHistory);
+			});
 		});
 	}
 

@@ -7,6 +7,7 @@ module.exports = {
 			users: 'auth/user',
 			templates: 'template',
 			devices: 'device',
+			history: 'history',
 			socketioToken: 'stream/socketio',
 		},
 		credentials: {

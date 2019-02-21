@@ -20,6 +20,7 @@ module.exports = class Device {
 	}
 
 	get(options) {
+		options = options || {};
 		console.log('Setting options', options);
 		let baseEndpoint = endpoint;
 		let queryParams = '';

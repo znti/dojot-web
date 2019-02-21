@@ -21,18 +21,32 @@ module.exports = class Device {
 
 	get(options) {
 		console.log('Setting options', options);
-		let getEndpoint = endpoint;
+		let baseEndpoint = endpoint;
+		let queryParams;
 		let deviceId = options && options.deviceId;
+
+		// Get a single device data
 		if(deviceId) {
-			getEndpoint = `${getEndpoint}/${deviceId}`;
-		} else {
-			let { pageSize, pageNumber } = options
-			if(pageSize && pageSize > 0 && pageNumber && pageNumber > 0) {
-				getEndpoint = `${getEndpoint}?page_num=${pageNumber}&page_size=${pageSize}`;
-			}
+			baseEndpoint = `${baseEndpoint}/${deviceId}`;
+		}
+		
+		// Pagination
+		let { pageSize, pageNumber } = options
+		if(pageSize && pageSize > 0 && pageNumber && pageNumber > 0) {
+			queryParams = `${queryParams}&page_num=${pageNumber}&page_size=${pageSize}`;
 		}
 
+		// Filter by label name
+		let { labelContains } = options;
+		if(labelContains) {
+			queryParams = `${queryParams}&label=${labelContains}`;
+		}
+
+
+		// Trim trailing & and combine with baseUrl
+		let getEndpoint = `${baseEndpoint}?${queryParams}`;
  	
+		// TODO once backstage can serve history along with device data, this part will be way simpler
 		return new Promise(async (resolve, reject) => {
 
 			let devices = await this._loadDevicesData(getEndpoint);
@@ -48,7 +62,6 @@ module.exports = class Device {
 
 					let dynamicAttrs = device.attrs.filter(attr => attr.type === 'dynamic');
 
-
 					if(!dynamicAttrs) {
 						console.log(`Skipping device ${device.label} (${device.id}) since it has no dynamic attrs`);
 						ndevices.push(device);
@@ -58,7 +71,6 @@ module.exports = class Device {
 
 					let attrsHistory = await this._loadDeviceHistory(device, historySize);
 
-					
 					dynamicAttrs.map(attr => {
 						let { label } = attr;
 						attr.history = attrsHistory[label];

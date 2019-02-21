@@ -43,10 +43,26 @@ module.exports = class Device {
 		}
 
 
-		// Trim first '&' and combine with baseUrl
-		queryParams = queryParams.replace('&', '');
-		let getEndpoint = `${baseEndpoint}?${queryParams}`;
+		let { filters } = options;
+		let attrFilterParams = '';
+		if(filters) {
+			for(let filterKey in filters) {
+				attrFilterParams += `attr=${filterKey}=${filters[filterKey]}`;
+			}
+		}
+
+		let getEndpoint = `${baseEndpoint}`;
  	
+		if(attrFilterParams) {
+			queryParams += `${attrFilterParams}`;
+		}
+
+		// Trim first '&' and combine with baseUrl
+		if(queryParams) {
+			queryParams = queryParams.replace('&', '');
+			getEndpoint += `?${queryParams}`;
+		}
+
 		// TODO once backstage can serve history along with device data, this part will be way simpler
 		return new Promise(async (resolve, reject) => {
 

@@ -22,7 +22,7 @@ module.exports = class Device {
 	get(options) {
 		console.log('Setting options', options);
 		let baseEndpoint = endpoint;
-		let queryParams;
+		let queryParams = '';
 		let deviceId = options && options.deviceId;
 
 		// Get a single device data
@@ -43,7 +43,8 @@ module.exports = class Device {
 		}
 
 
-		// Trim trailing & and combine with baseUrl
+		// Trim first '&' and combine with baseUrl
+		queryParams = queryParams.replace('&', '');
 		let getEndpoint = `${baseEndpoint}?${queryParams}`;
  	
 		// TODO once backstage can serve history along with device data, this part will be way simpler

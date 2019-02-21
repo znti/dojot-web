@@ -136,11 +136,18 @@ Currently supported options are:
 }
 ```
 
+##### Brings the last `n` entries for each device's dynamic attribute
+```json
+{
+	"historySize": 5
+}
+```
+
 ##### Paginate the devices list
 ```json
 {
-	"pageSize": "5",
-	"pageNumber": "2"
+	"pageSize": 5,
+	"pageNumber": 2
 }
 ```
 

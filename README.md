@@ -116,13 +116,49 @@ Templates.delete({
 
 ## Devices
 
-### get()
+### get(options)
 Lists all devices available at dojot.
 
 ```js
 Devices.get().then(devices => {
 	console.log(`Retrieved ${devices.length} devices`);
 }).catch(console.error);
+```
+
+#### options
+It's an object detailing what kind of query must be performed.
+Currently supported options are:
+
+##### Get data for a specific device
+```json
+{
+	"deviceId": "abc123"
+}
+```
+
+##### Paginate the devices list
+```json
+{
+	"pageSize": "5",
+	"pageNumber": "2"
+}
+```
+
+##### Filter by device label name (or partial name)
+```json
+{
+	"labelContains": "TemperatureSensor"
+}
+```
+
+##### Filter by one or more attribute values
+```json
+{
+	"filter": {
+		"make": "TexasInstruments",
+		"type": "Sensor"
+	}
+}
 ```
 
 ### set(deviceData)

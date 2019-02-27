@@ -1,11 +1,13 @@
 let http = require('../utils/Http');
-let configs = require('../configs');
-let endpoint = configs.dojot.resources.devices
+const Endpoints = require('../utils/Endpoints');
 
 module.exports = class Device {
 
 	constructor(wsClient) {
 		this.ws = wsClient;
+
+		this.endpoint = Endpoints.get('devices');
+		console.log('Set Devices endpoint as', this.endpoint);
 
 		this.deviceChangeCallbacks = [];
 		this.deviceDataCallbacks = [];
@@ -22,7 +24,7 @@ module.exports = class Device {
 	get(options) {
 		options = options || {};
 		console.log('Setting options', options);
-		let baseEndpoint = endpoint;
+		let baseEndpoint = this.endpoint;
 		let queryParams = '';
 		let deviceId = options && options.deviceId;
 
@@ -132,7 +134,7 @@ module.exports = class Device {
 		return new Promise((resolve, reject) => {
 
 			console.log(`Requesting history for device ${device.label} (${device.id})`);
-			let historyEndpoint = `${configs.dojot.resources.history}/device/${device.id}/history`;
+			let historyEndpoint = `${Endpoints.history}/device/${device.id}/history`;
 			historyEndpoint = `${historyEndpoint}?lastN=${historySize}`;
 
 			http.get(historyEndpoint).then(attrsHistory => {
@@ -151,7 +153,7 @@ module.exports = class Device {
 	}
 
 	set(deviceData) {
-		return http.post(endpoint, deviceData).then(response => {
+		return http.post(this.endpoint, deviceData).then(response => {
 			let createdDevice = response.devices[0];
 			return createdDevice;
 		});
@@ -159,7 +161,7 @@ module.exports = class Device {
 
 	delete(deviceData) {
 		let deviceId = deviceData.id;
-		let deleteEndpoint = `${endpoint}/${deviceId}`;
+		let deleteEndpoint = `${this.endpoint}/${deviceId}`;
 		return http.delete(deleteEndpoint).then(response => {
 			let removedDevice = response.removed_device;
 			return removedDevice;

@@ -1,15 +1,17 @@
 let http = require('../utils/Http');
-let configs = require('../configs');
-let endpoint = configs.dojot.resources.templates
+const Endpoints = require('../utils/Endpoints');
 
 module.exports = class Templates {
 
 	constructor(wsClient) {
 		this.ws = wsClient;
+
+		this.endpoint = Endpoints.get('templates');
+		console.log('Set Devices endpoint as', this.endpoint);
 	}
 
 	get() {
-		return http.get(endpoint).then(response => {
+		return http.get(this.endpoint).then(response => {
 			let templates = response.templates || [];
 			return templates;
 		});
@@ -17,7 +19,7 @@ module.exports = class Templates {
 
 	set(templateData) {
 //		let endpoint = configs.dojot.resources.templateCreation;
-		return http.post(endpoint, templateData).then(response => {
+		return http.post(this.endpoint, templateData).then(response => {
 			let createdTemplate = response.template;
 			return createdTemplate;
 		});
@@ -25,7 +27,7 @@ module.exports = class Templates {
 
 	delete(templateData) {
 		let templateId = templateData.id;
-		let deleteEndpoint = `${endpoint}/${templateId}`;
+		let deleteEndpoint = `${this.endpoint}/${templateId}`;
 		return http.delete(deleteEndpoint).then(response => {
 			let removedTemplate = response.removed;
 			return removedTemplate;

@@ -2,16 +2,18 @@ let Templates = require('./helpers/Templates');
 let Devices = require('./helpers/Devices');
 let Users = require('./helpers/Users');
 
-let configs = require('./configs');
+//let configs = require('./configs');
 
 let http = require('./utils/Http');
 
 let Websocket = require('./utils/Websocket');
 
+let Endpoints = require('./utils/Endpoints');
+
 module.exports = class Dojot {
 
 	go() {
-		this.configure('http://localhost:8000')
+		this.configure({host:'http://localhost', customEndpoint: 'api'})
 			.then(d => d.initializeWithCredentials())
 	}
 
@@ -19,10 +21,13 @@ module.exports = class Dojot {
 		return this.authToken;
 	}
 	
-	configure(dojotHost) {
-		console.log('Initializing dojot client..');
+	configure(dojotConfigs) {
+		console.log('Initializing dojot client with configs:', dojotConfigs);
 	
+		let dojotHost = dojotConfigs.host;
 		this.dojotHost = dojotHost;
+
+		Endpoints.configure(dojotConfigs);
 
 		return http.init(dojotHost).then((dojotClient) => {
 			console.log('Configured! Now pointing to', dojotHost);
@@ -32,12 +37,14 @@ module.exports = class Dojot {
 	}
 	
 	initializeWithCredentials(user, password) {
-		let credentials = configs.dojot.credentials;
+		let credentials = {username: 'admin', passwd: 'admin'};
 		if(user && password) {
 			credentials = {username: user, passwd: password};
 		}
 		console.log('Initializing dojot client with credentials', credentials, '..');
-		let authEndpoint = configs.dojot.resources.auth;
+		console.log('Endpoints:', Endpoints);
+		//let authEndpoint = Endpoints.auth;
+		let authEndpoint = Endpoints.get('auth');
 		return this.httpClient.post(authEndpoint, credentials).then(response => {
 			let authToken = response.jwt;
 			return this.initializeWithToken(authToken);
@@ -65,7 +72,7 @@ module.exports = class Dojot {
 
 		this.ws = new Websocket();
 		console.log('Initializing ws helper');
-		return this.ws.init(this.dojotHost, `${this.dojotHost}/${configs.dojot.resources.socketioToken}`)
+		return this.ws.init(this.dojotHost, `${this.dojotHost}/${Endpoints.get('socketioToken')}`);
 	}
 
 }

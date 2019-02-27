@@ -1,22 +1,24 @@
 let http = require('../utils/Http');
-let configs = require('../configs');
-let endpoint = configs.dojot.resources.users
+const Endpoints = require('../utils/Endpoints');
 
 module.exports = class Users {
 
 	constructor(wsClient) {
 		this.ws = wsClient;
+
+		this.endpoint = Endpoints.get('users');
+		console.log('Set Devices endpoint as', this.endpoint);
 	}
 
 	get() {
-		return http.get(endpoint).then(response => {
+		return http.get(this.endpoint).then(response => {
 			let users = response.users || [];
 			return users;
 		});
 	}
 
 	set(userData) {
-		return http.post(endpoint, userData).then(response => {
+		return http.post(this.endpoint, userData).then(response => {
 			let createdUser = response[0].user;
 			return createdUser;
 		});
@@ -24,7 +26,7 @@ module.exports = class Users {
 
 	delete(userData) {
 		let userId = userData.id;
-		let deleteEndpoint = `${endpoint}/${userId}`;
+		let deleteEndpoint = `${this.endpoint}/${userId}`;
 		return http.delete(deleteEndpoint).then(response => {
 			let removedUser = response.message;
 			return removedUser;

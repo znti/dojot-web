@@ -7,7 +7,7 @@ module.exports = class Users {
 		this.ws = wsClient;
 
 		this.endpoint = Endpoints.get('users');
-		console.log('Set Devices endpoint as', this.endpoint);
+		console.log('Set Users endpoint as', this.endpoint);
 	}
 
 	get() {

@@ -134,7 +134,7 @@ module.exports = class Device {
 		return new Promise((resolve, reject) => {
 
 			console.log(`Requesting history for device ${device.label} (${device.id})`);
-			let historyEndpoint = `${Endpoints.history}/device/${device.id}/history`;
+			let historyEndpoint = `${Endpoints.get('history')}/device/${device.id}/history`;
 			historyEndpoint = `${historyEndpoint}?lastN=${historySize}`;
 
 			http.get(historyEndpoint).then(attrsHistory => {

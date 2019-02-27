@@ -7,7 +7,7 @@ module.exports = class Templates {
 		this.ws = wsClient;
 
 		this.endpoint = Endpoints.get('templates');
-		console.log('Set Devices endpoint as', this.endpoint);
+		console.log('Set Templates endpoint as', this.endpoint);
 	}
 
 	get() {
